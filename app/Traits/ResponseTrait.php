@@ -2,7 +2,9 @@
 
 namespace App\Traits;
 
+use ErrorException;
 use Illuminate\Http\JsonResponse;
+use Throwable;
 
 trait ResponseTrait
 {
@@ -23,16 +25,15 @@ trait ResponseTrait
     /**
      * Error Response
      *
-     * @param  string $message
-     * @param  array  $errors
+     * @param  Throwable $error
      * @param  int $code
      * @return JsonResponse
      */
-    public function errorResponse(string $message = "Error" , array | string $errors = array(),int $code = 500): JsonResponse
+    public function errorResponse(Throwable | ErrorException $error,int $code = null): JsonResponse
     {
         return response()->json([
-            'message' => $message,
-            'error' => $errors
-        ],$code);
+            'message' => $error->getMessage(),
+            'error' => $error
+        ],$code ?? $error->getCode());
     }
 }
