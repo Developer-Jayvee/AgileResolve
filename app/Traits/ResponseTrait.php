@@ -29,7 +29,7 @@ trait ResponseTrait
      * @param  int $code
      * @return JsonResponse
      */
-    public function errorResponse(Throwable | ErrorException $error,int $code = null): JsonResponse
+    public function errorResponse(Throwable | ErrorException $error,int $code = 500): JsonResponse
     {
         return response()->json([
             'message' => $error->getMessage(),

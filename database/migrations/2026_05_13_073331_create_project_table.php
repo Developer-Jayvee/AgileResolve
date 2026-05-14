@@ -20,7 +20,7 @@ return new class extends Migration
 
 
             $table->foreignId("client_id");
-            $table->foreignId("manager_id");
+            $table->foreignId("manager_id")->nullable();
         });
     }
 
