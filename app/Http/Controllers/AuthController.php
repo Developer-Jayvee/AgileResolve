@@ -15,6 +15,12 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
+    /**
+     * Login
+     *
+     * @param  LoginRequest $request
+     * @return JsonResponse
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         try {
@@ -26,8 +32,5 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             return $this->errorResponse($th);
         }
-
-
-
     }
 }

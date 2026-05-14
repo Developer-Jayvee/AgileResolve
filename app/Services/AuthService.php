@@ -16,6 +16,13 @@ class AuthService
 
     }
 
+    /**
+     * Login
+     *
+     * @param  string $username
+     * @param  string $password
+     * @return array
+     */
     public function login(string $username , string $password) : array
     {
         try {

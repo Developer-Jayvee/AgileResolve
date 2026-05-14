@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,5 +16,17 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function(QueryException $e){
+            return response()->json([
+                'message' => 'Missing Payload',
+                'error' => $e->getMessage()
+            ]);
+        });
+        $exceptions->render(function(InvalidArgumentException $e){
+            return response()->json([
+                'message' => 'Something went wrong. Please try again later.',
+                'error' => $e->getMessage(),
+            ]);
+        });
+
     })->create();
