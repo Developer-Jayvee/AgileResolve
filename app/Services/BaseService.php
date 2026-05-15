@@ -76,7 +76,7 @@ abstract class BaseService implements BaseContract
     {
         try {
             $update = $updateModel->update($updateArray);
-            return $updateModel->first();
+            return $updateModel;
         } catch (\Throwable $th) {
             throw $th;
         }
