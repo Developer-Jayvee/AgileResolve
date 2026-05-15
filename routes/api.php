@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Traits\ResponseTrait;
@@ -37,6 +38,17 @@ Route::prefix('v1')->group(function(){
         });
         Route::delete('/{role}/delete','roleDelete')->missing(function (Request $request) {
            return response()->json(['message' => 'Role does not exists.'],500);
+        });
+    });
+
+    Route::controller(UserController::class)->prefix('user')->group(function(){
+        Route::get('/list','userList');
+        Route::post('/create','userCreate');
+        Route::patch('/{user}/update','userUpdate')->missing(function (Request $request) {
+           return response()->json(['message' => 'User does not exists.'],500);
+        });
+        Route::delete('/{user}/delete','userDelete')->missing(function (Request $request) {
+           return response()->json(['message' => 'User does not exists.'],500);
         });
     });
 });
