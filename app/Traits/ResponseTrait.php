@@ -3,7 +3,9 @@
 namespace App\Traits;
 
 use ErrorException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Validator;
 use Throwable;
 
 trait ResponseTrait
@@ -36,4 +38,14 @@ trait ResponseTrait
             'error' => $error
         ],$code ?? $error->getCode());
     }
+    public function failedValidationResponse(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'Validation failed',
+                'error' => $validator->getMessageBag()
+            ],422)
+        );
+    }
+
 }

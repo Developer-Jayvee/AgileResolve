@@ -10,7 +10,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Override;
 
-class UpdateProjectRequest extends FormRequest
+class UpdateRoleRequeest extends FormRequest
 {
     use ResponseTrait;
     /**
@@ -28,12 +28,11 @@ class UpdateProjectRequest extends FormRequest
      */
     public function rules(): array
     {
-       return [
-           'title' => [
+        return [
+            'title' => [
                 'string',
-                'unique:projects,title'
-            ],
-           'client_id' => ['integer']
+                'unique:roles,title'
+            ]
         ];
     }
 

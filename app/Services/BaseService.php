@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Contracts\BaseContract;
-use App\Services\CrudService;
 use App\Traits\ResponseTrait;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -15,19 +15,12 @@ abstract class BaseService implements BaseContract
 {
     use ResponseTrait;
 
-
     protected Model $baseModel;
     protected Request $updateRequest;
 
-
-    protected int $itemId;
-
-
     abstract protected function setParams();
 
-    public function __construct() {
-
-    }
+    public function __construct() { }
 
     #[Override]
     /**
@@ -35,17 +28,15 @@ abstract class BaseService implements BaseContract
      *
      * @param  array $store
      * @param  string $message
-     * @return JsonResponse
+     * @return Collection | array
      */
-    public function create( $store = array(),string $message = "Successfully Stored.") : JsonResponse
+    public function create( $store = array(),string $message = "Successfully Stored.") : Model |  Collection | array
     {
         try {
             if(count($store) === 0) throw new \Exception("Missing payload", 500);
-
-            $data = $this->baseModel->create($store);
-            return $this->sucessResponse($message,['data' => $data ]);
+            return $this->baseModel->create($store);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th,500);
+            throw $th;
         }
     }
     /**
@@ -54,9 +45,9 @@ abstract class BaseService implements BaseContract
      * @param  bool $addPagination
      * @param  int $per_page
      * @param  int $page
-     * @return JsonResponse
+     * @return Collection | array
      */
-    public function retrieve(bool $addPagination = false ,int $per_page = 10 , int $page = 1) : JsonResponse
+    public function retrieve(bool $addPagination = false ,int $per_page = 10 , int $page = 1) : LengthAwarePaginator | Collection | array
     {
         try {
             if($addPagination){
@@ -66,15 +57,11 @@ abstract class BaseService implements BaseContract
                     $per_page,
                     $page
                 );
-                return $this->sucessResponse("Success",[
-                    'data' => $data
-                ]);
+                return $data;
             }
-            return $this->sucessResponse("Success",[
-                'data' => $this->baseModel->get()
-            ]);
+           return $this->baseModel->get();
         } catch (\Throwable $th) {
-            return $this->errorResponse($th);
+            throw $th;
         }
     }
     #[Override]
@@ -83,17 +70,15 @@ abstract class BaseService implements BaseContract
      *
      * @param  Model $updateModel
      * @param  array $updateArray
-     * @return JsonResponse
+     * @return Collection | array
      */
-    public function update(Model $updateModel , array $updateArray = array()) : JsonResponse
+    public function update(Model $updateModel , array $updateArray = array()) : Model | Collection | array
     {
         try {
-            $data =  $updateModel->update($updateArray);
-            return $this->sucessResponse("Updated Successfully" , [
-                'data' => $updateModel
-            ]);
+            $update = $updateModel->update($updateArray);
+            return $updateModel->first();
         } catch (\Throwable $th) {
-            return $this->errorResponse($th);
+            throw $th;
         }
     }
     #[Override]
@@ -101,15 +86,14 @@ abstract class BaseService implements BaseContract
      * Delete
      *
      * @param  Model $deleteModel
-     * @return JsonResponse
+     * @return Collection | array | bool
      */
-    public function delete(Model $deleteModel) : JsonResponse
+    public function delete(Model $deleteModel) : Collection | array |  bool
     {
          try {
-            $data =  $deleteModel->delete();
-            return $this->sucessResponse("Deleted Successfully");
+            return  $deleteModel->delete();
         } catch (\Throwable $th) {
-            return $this->errorResponse($th);
+            throw $th;
         }
     }
 }
