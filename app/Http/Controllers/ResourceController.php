@@ -6,8 +6,6 @@ use App\Services\CrudService;
 use App\Traits\ResponseTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class ResourceController
