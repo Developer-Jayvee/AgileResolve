@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TicketStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Override;
@@ -11,7 +12,7 @@ class TicketModel extends Model
     protected $table = "tickets";
 
     protected $fillable = [
-        'code' , 'title' , 'content' , 'deadline' , 'projects_id' ,'created_by'
+        'code' , 'title' , 'content' , 'deadline' , 'projects_id' ,'created_by' , 'status'
     ];
 
     #[Override]

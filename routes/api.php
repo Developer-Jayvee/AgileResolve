@@ -18,8 +18,17 @@ Route::prefix('v1')->group(function(){
     });
 
     Route::prefix('admin')->group(function(){
-
+        Route::apiResource('role',RoleController::class);
+        Route::apiResource('project',ProjectController::class);
+        Route::apiResource('user',UserController::class);
+        Route::apiResource('ticket',TicketController::class);
     });
+    Route::prefix('client')->group(function () {
+        Route::apiResource('project',ProjectController::class);
+        Route::apiResource('ticket',TicketController::class);
+    });
+
+    
     Route::apiResource('role',RoleController::class);
     Route::apiResource('project',ProjectController::class);
     Route::apiResource('user',UserController::class);
