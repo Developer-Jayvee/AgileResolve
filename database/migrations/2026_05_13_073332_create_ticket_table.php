@@ -20,8 +20,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreignId("projects_id")->constrained();
-            $table->foreignId("client_id");
-
+            $table->foreignId('created_by')->constrained('users');
         });
     }
 
