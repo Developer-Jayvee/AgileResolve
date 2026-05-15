@@ -31,12 +31,16 @@ trait ResponseTrait
      * @param  int $code
      * @return JsonResponse
      */
-    public function errorResponse(Throwable | ErrorException $error,int $code = 500): JsonResponse
+    public function errorResponse(Throwable | ErrorException | HttpResponseException $error,int $code = 500): JsonResponse
     {
+        if($error instanceof HttpResponseException){
+            $content = json_decode($error->getResponse()->getContent(),true);
+            return response()->json($content,$code ?? $error->getCode());
+        }
         return response()->json([
-            'message' => $error->getMessage(),
-            'error' => $error
-        ],$code ?? $error->getCode());
+                'message' => $error->getMessage(),
+                'error' => $error
+            ],$code);
     }
     public function failedValidationResponse(Validator $validator)
     {
