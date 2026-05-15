@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TicketStatus;
 use App\Traits\ResponseTrait;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Override;
 
 class UpdateTicketRequest extends FormRequest
@@ -31,6 +33,7 @@ class UpdateTicketRequest extends FormRequest
             'content' ,
             'deadline' => ['date'],
             'projects_id' => ['exists:projects,id'],
+            'status' => [Rule::enum(TicketStatus::class)]
         ];
     }
     #[Override]

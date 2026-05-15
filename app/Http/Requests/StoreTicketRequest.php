@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TicketStatus;
 use App\Traits\ResponseTrait;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Override;
 
 class StoreTicketRequest extends FormRequest
@@ -31,7 +33,8 @@ class StoreTicketRequest extends FormRequest
             'content' => ['required'],
             'deadline' => ['required','date'],
             'projects_id' => ['required','exists:projects,id'],
-            'created_by' => ['required','exists:users,id']
+            'created_by' => ['required','exists:users,id'],
+            'status' => [Rule::enum(TicketStatus::class)]
         ];
     }
     /**
