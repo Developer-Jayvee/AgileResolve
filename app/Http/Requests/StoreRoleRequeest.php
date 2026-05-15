@@ -4,13 +4,14 @@ namespace App\Http\Requests;
 
 use App\Traits\ResponseTrait;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
-use Override;
 
-class UpdateProjectRequest extends FormRequest
+
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
+
+class StoreRoleRequeest extends FormRequest
 {
     use ResponseTrait;
     /**
@@ -28,18 +29,12 @@ class UpdateProjectRequest extends FormRequest
      */
     public function rules(): array
     {
-       return [
-           'title' => [
-                'string',
-                'unique:projects,title'
-            ],
-           'client_id' => ['integer']
+        return [
+            'title' => ['required','unique:roles']
         ];
     }
-
-    #[Override]
     protected function failedValidation(Validator $validator)
     {
-        $this->failedValidationResponse($validator);
+       $this->failedValidationResponse($validator);
     }
 }

@@ -6,12 +6,13 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\ProjectModel;
 use App\Services\CrudService;
+use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Override;
 
-class AdminController extends Controller
+class ProjectController extends Controller
 {
+    use ResponseTrait;
+
     protected ProjectModel $projectModel;
     protected CrudService $projectCrudService;
 
@@ -26,7 +27,14 @@ class AdminController extends Controller
      */
     public function projectList() : JsonResponse
     {
-        return $this->projectCrudService->retrieve();
+        try {
+            $data = $this->projectCrudService->retrieve();
+            return $this->sucessResponse('Success',[
+                'data' => $data
+            ]);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th);
+        }
     }
     /**
      * Create new Project
@@ -36,8 +44,13 @@ class AdminController extends Controller
      */
     public function projectCreate(StoreProjectRequest $request) : JsonResponse
     {
-        $data = $request->validated();
-        return $this->projectCrudService->create($data);
+        try {
+            $data = $request->validated();
+            $create =  $this->projectCrudService->create($data);
+            return $this->sucessResponse('Success',['data' => $create ]);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th);
+        }
     }
     /**
      * Update Project
@@ -48,8 +61,15 @@ class AdminController extends Controller
      */
     public function projectUpdate(UpdateProjectRequest $request,ProjectModel $project) : JsonResponse
     {
-        $data = $request->validated();
-        return $this->projectCrudService->update($project,$data);
+        try {
+            $data = $request->validated();
+            return $this->sucessResponse('Successfully Updated', [
+                'data' => $this->projectCrudService->update($project,$data)
+            ]);
+            //code...
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th);
+        }
     }
     /**
      * Delete Project
@@ -59,6 +79,11 @@ class AdminController extends Controller
      */
     public function projectDelete(ProjectModel $project) : JsonResponse
     {
-        return $this->projectCrudService->delete($project);
+        try {
+            $delete = $this->projectCrudService->delete($project);
+            return $this->sucessResponse('Successfully deleted.');
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th);
+        }
     }
 }
