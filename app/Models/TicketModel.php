@@ -12,7 +12,7 @@ class TicketModel extends Model
     protected $table = "tickets";
 
     protected $fillable = [
-        'code' , 'title' , 'content' , 'deadline' , 'projects_id' ,'created_by' , 'status'
+        'code' , 'title' , 'content' , 'deadline' , 'projects_id' ,'created_by' , 'status' , 'receive_by' , 'updated_by'
     ];
 
     #[Override]

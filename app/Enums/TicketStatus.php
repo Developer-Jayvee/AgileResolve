@@ -4,14 +4,16 @@ namespace App\Enums;
 
 enum TicketStatus : string
 {
-    case ACCEPT = "accepted";
-    case REJECT = "rejected";
+    case ACCEPTED = "accepted";
+    case REJECTED = "rejected";
+
 
     public function label() : string
     {
         return match($this) {
-            self::ACCEPT => 'ACCEPTED',
-            self::REJECT => 'REJECTED'
+            self::ACCEPTED => 'Accepted',
+            self::REJECTED => 'Rejected'
         };
     }
+
 }

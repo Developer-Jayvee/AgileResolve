@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -28,7 +29,10 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('ticket',TicketController::class);
     });
 
-    
+    Route::prefix('support')->group(function () {
+        Route::post('/ticket-status',[SupportController::class, 'ticketStatus']);
+    });
+
     Route::apiResource('role',RoleController::class);
     Route::apiResource('project',ProjectController::class);
     Route::apiResource('user',UserController::class);
