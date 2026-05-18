@@ -19,6 +19,8 @@ return new class extends Migration
             $table->date("deadline");
             $table->timestamps();
 
+            $table->foreignId('receive_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
             $table->foreignId("projects_id")->constrained();
             $table->foreignId('created_by')->constrained('users');
         });
