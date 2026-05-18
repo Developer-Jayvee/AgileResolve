@@ -31,6 +31,7 @@ Route::prefix('v1')->group(function(){
 
     Route::prefix('support')->group(function () {
         Route::post('/ticket-status',[SupportController::class, 'ticketStatus']);
+        Route::post('/assign-ticket',[SupportController::class, 'assignTicketToLead']);
     });
 
     Route::apiResource('role',RoleController::class);
